@@ -1,4 +1,6 @@
 using System.Text.Json;
+using FluentValidation;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using StackExchange.Redis;
@@ -47,7 +49,35 @@ public class Transaction : Entity
 }
 
 public record DebitTransactionRequest(DateOnly ReferenceDate, decimal Value);
+
+public class DebitTransactionValidation : AbstractValidator<DebitTransactionRequest>
+{
+    public DebitTransactionValidation()
+    {
+        RuleFor(x => x.ReferenceDate)
+            .NotEmpty();
+        
+        RuleFor(x => x.Value)
+            .GreaterThan(0)
+            .NotEmpty();
+    }
+}
+
 public record CreditTransactionRequest(DateOnly ReferenceDate, decimal Value);
+
+public class CreditTransactionValidation : AbstractValidator<CreditTransactionRequest>
+{
+    public CreditTransactionValidation()
+    {
+        RuleFor(x => x.ReferenceDate)
+            .NotEmpty();
+        
+        RuleFor(x => x.Value)
+            .GreaterThan(0)
+            .NotEmpty();
+    }
+}
+
 public record TransactionResponse(Guid Id, decimal Value, DateOnly ReferenceDate, string Direction);
 
 public static class TransactionEndpoints
@@ -58,6 +88,11 @@ public static class TransactionEndpoints
 
         endpoints.MapPost("/debit", async (DebitTransactionRequest request, TransactionDbContext context, TransactionService service) =>
         {
+            var validation = new DebitTransactionValidation().Validate(request);
+            
+            if (!validation.IsValid)
+                return Results.BadRequest(validation.Errors);
+
             var transaction = Transaction.Debit(request.ReferenceDate, request.Value);
             
             context.Add(transaction);
@@ -77,6 +112,11 @@ public static class TransactionEndpoints
 
         endpoints.MapPost("/credit", async (CreditTransactionRequest request, TransactionDbContext context, TransactionService service) =>
         {
+            var validation = new CreditTransactionValidation().Validate(request);
+            
+            if (!validation.IsValid)
+                return Results.BadRequest(validation.Errors);
+            
             var transaction = Transaction.Credit(request.ReferenceDate, request.Value);
             
             context.Add(transaction);
