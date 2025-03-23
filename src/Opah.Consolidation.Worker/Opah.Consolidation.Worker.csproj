@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-Opah.Consolidation.Worker-de3c5c76-27df-41d5-bd94-11ee5ebeebd8</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="9.0.3"/>
+        <PackageReference Include="StackExchange.Redis" Version="2.8.31" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Opah.Consolidation.Domain\Opah.Consolidation.Domain.csproj" />
+      <ProjectReference Include="..\Opah.Consolidation.Infrastructure\Opah.Consolidation.Infrastructure.csproj" />
+    </ItemGroup>
+</Project>

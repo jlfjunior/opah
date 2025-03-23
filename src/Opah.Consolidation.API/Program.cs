@@ -6,10 +6,6 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-// builder.Services.AddHostedService<TransactionCreatedHostedService>();
-
-builder.Services.AddTransient<TransactionService>();
-
 builder.Services.AddDbContext<ConsolidationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("ConsolidationDb")));
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
