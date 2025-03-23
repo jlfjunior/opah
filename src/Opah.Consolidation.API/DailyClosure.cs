@@ -1,45 +1,8 @@
-using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Opah.Consolidation.Domain;
 using StackExchange.Redis;
 
 namespace Opah.Consolidation.API;
-
-public enum DailyClosureStatus
-{
-    Open = 10,
-    Closed = 20,
-}
-
-public enum Direction
-{
-    Debit = 10,
-    Credit = 20
-}
-
-public class DailyClosure
-{
-    protected DailyClosure() { }
-    
-    public Guid Id { get; private set; }
-    public DateOnly ReferenceDate { get; private set; }
-    public decimal Value { get; private set; }
-    public DailyClosureStatus Status { get; private set; }
-    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    public DateTime UpdatedAt { get; private set; } = DateTime.UtcNow;
-    public ICollection<Transaction> Transactions { get; set; }
-}
-
-public class Transaction
-{
-    public Guid Id { get; private set; }
-    public DateOnly ReferenceDate { get; private set; }
-    public decimal Value { get; private set; }
-    public Direction Direction { get; private set; }
-    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-    public Guid DailyClosureId { get; set; }
-    public DailyClosure DailyClosure { get; set; }
-}
 
 public record TransactionResponse(Guid Id, decimal Value, DateOnly ReferenceDate, string Direction);
 

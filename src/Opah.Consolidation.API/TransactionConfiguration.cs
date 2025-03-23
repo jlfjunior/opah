@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Opah.Consolidation.Domain;
 
 namespace Opah.Consolidation.API;
 

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opah.Transaction.API", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opah.Consolidation.API", "src\Opah.Consolidation.API\Opah.Consolidation.API.csproj", "{8F7B086E-AA4B-4150-B959-65801E791016}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opah.Consolidation.Domain", "src\Opah.Consolidation.Domain\Opah.Consolidation.Domain.csproj", "{BE84EC10-4123-4257-BCFA-146A6E41268A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{8F7B086E-AA4B-4150-B959-65801E791016}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8F7B086E-AA4B-4150-B959-65801E791016}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8F7B086E-AA4B-4150-B959-65801E791016}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE84EC10-4123-4257-BCFA-146A6E41268A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE84EC10-4123-4257-BCFA-146A6E41268A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE84EC10-4123-4257-BCFA-146A6E41268A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE84EC10-4123-4257-BCFA-146A6E41268A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
