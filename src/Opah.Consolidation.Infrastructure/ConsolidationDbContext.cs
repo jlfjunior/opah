@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 
-namespace Opah.Consolidation.API;
+namespace Opah.Consolidation.Infrastructure;
 
 public class ConsolidationDbContext : DbContext
 {

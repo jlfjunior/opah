@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Opah.Consolidation.API;
+using Opah.Consolidation.Infrastructure;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Opah.Consolidation.Domain;
+using Opah.Consolidation.Infrastructure;
 using StackExchange.Redis;
 
 namespace Opah.Consolidation.API;
@@ -15,6 +16,7 @@ public static class DailyClosureEndpoints
         var group = routes.MapGroup("daily-closure");
         
         group.MapGet("/", async (DateOnly referenceDate, ConsolidationDbContext context) =>
+        
         {
             var dailyClosures = await context.Set<DailyClosure>()
                 .Where(c => c.ReferenceDate == referenceDate)

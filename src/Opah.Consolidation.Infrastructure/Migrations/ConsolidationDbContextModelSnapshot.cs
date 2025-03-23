@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Opah.Consolidation.API;
+using Opah.Consolidation.Infrastructure;
 
 #nullable disable
 
-namespace Opah.Consolidation.API.Migrations
+namespace Opah.Consolidation.Infrastructure.Migrations
 {
     [DbContext(typeof(ConsolidationDbContext))]
     partial class ConsolidationDbContextModelSnapshot : ModelSnapshot
@@ -22,7 +22,7 @@ namespace Opah.Consolidation.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Opah.Consolidation.API.DailyClosure", b =>
+            modelBuilder.Entity("Opah.Consolidation.Domain.DailyClosure", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -52,7 +52,7 @@ namespace Opah.Consolidation.API.Migrations
                     b.ToTable("DailyClosures", (string)null);
                 });
 
-            modelBuilder.Entity("Opah.Consolidation.API.Transaction", b =>
+            modelBuilder.Entity("Opah.Consolidation.Domain.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -81,9 +81,9 @@ namespace Opah.Consolidation.API.Migrations
                     b.ToTable("Transactions", (string)null);
                 });
 
-            modelBuilder.Entity("Opah.Consolidation.API.Transaction", b =>
+            modelBuilder.Entity("Opah.Consolidation.Domain.Transaction", b =>
                 {
-                    b.HasOne("Opah.Consolidation.API.DailyClosure", "DailyClosure")
+                    b.HasOne("Opah.Consolidation.Domain.DailyClosure", "DailyClosure")
                         .WithMany("Transactions")
                         .HasForeignKey("DailyClosureId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -92,7 +92,7 @@ namespace Opah.Consolidation.API.Migrations
                     b.Navigation("DailyClosure");
                 });
 
-            modelBuilder.Entity("Opah.Consolidation.API.DailyClosure", b =>
+            modelBuilder.Entity("Opah.Consolidation.Domain.DailyClosure", b =>
                 {
                     b.Navigation("Transactions");
                 });

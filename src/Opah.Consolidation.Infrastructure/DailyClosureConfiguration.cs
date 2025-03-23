@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Opah.Consolidation.Domain;
 
-namespace Opah.Consolidation.API;
+namespace Opah.Consolidation.Infrastructure;
 
 public class DailyClosureConfiguration : IEntityTypeConfiguration<DailyClosure>
 {

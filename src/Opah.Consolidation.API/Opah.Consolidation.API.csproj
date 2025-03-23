@@ -8,7 +8,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.3"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.3">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,6 +20,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Opah.Consolidation.Domain\Opah.Consolidation.Domain.csproj" />
+      <ProjectReference Include="..\Opah.Consolidation.Infrastructure\Opah.Consolidation.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>

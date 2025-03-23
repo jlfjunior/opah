@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Opah.Consolidation.API.Migrations
+namespace Opah.Consolidation.Infrastructure.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
