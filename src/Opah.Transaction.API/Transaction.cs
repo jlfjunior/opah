@@ -11,7 +11,7 @@ public enum Direction
     Credit = 20
 }
 
-public class Transaction
+public class Transaction : Entity
 {
     protected Transaction() { }
     
@@ -25,14 +25,10 @@ public class Transaction
         Validate();
     }
 
-    public Guid Id { get; private set; }
     public DateOnly ReferenceDate { get; private set; }
     public decimal Value { get; private set; }
     public Direction Direction { get; private set; }
     
-    //TODO: Move to Interceptors
-    public DateTime CreatedAt { get; private set; } = DateTime.UtcNow;
-
     private void Validate()
     {
         if (ReferenceDate == default) throw new Exception("Reference date is required");

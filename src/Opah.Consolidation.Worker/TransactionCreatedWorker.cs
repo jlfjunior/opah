@@ -63,9 +63,8 @@ public class TransactionService
             await _context.SaveChangesAsync();
         }
 
-        var transaction = new Transaction
+        var transaction = new Transaction()
         {
-            Id = Guid.NewGuid(),
             ReferenceDate = response.ReferenceDate,
             Value = response.Value,
             Direction = response.Direction == "Credit" ? Direction.Credit : Direction.Debit

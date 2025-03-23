@@ -9,6 +9,11 @@ public class TransactionDbContext : DbContext
     { }
 
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.AddInterceptors(new AuditingSaveChangesInterceptor());
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(TransactionDbContext).Assembly);

@@ -15,6 +15,8 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(x => x.Value).HasPrecision(18, 2);
         builder.Property(x => x.Direction).HasConversion<int>();
         builder.Property(x => x.CreatedAt);
+        
+        builder.Ignore(x => x.UpdatedAt);
 
         builder.HasOne(x => x.DailyClosure)
             .WithMany(x => x.Transactions)
