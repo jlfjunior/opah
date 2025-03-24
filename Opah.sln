@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opah.Consolidation.Worker",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opah.Redis.Client", "src\Opah.Redis.Client\Opah.Redis.Client.csproj", "{C56B1C28-FA58-4CBF-9464-B90BADFEFBAE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Opah.BFF", "src\Opah.BFF\Opah.BFF.csproj", "{EBAA13D9-1A71-4F75-AAC7-14C1131633C5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,5 +50,9 @@ Global
 		{C56B1C28-FA58-4CBF-9464-B90BADFEFBAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C56B1C28-FA58-4CBF-9464-B90BADFEFBAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C56B1C28-FA58-4CBF-9464-B90BADFEFBAE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBAA13D9-1A71-4F75-AAC7-14C1131633C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBAA13D9-1A71-4F75-AAC7-14C1131633C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBAA13D9-1A71-4F75-AAC7-14C1131633C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBAA13D9-1A71-4F75-AAC7-14C1131633C5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
