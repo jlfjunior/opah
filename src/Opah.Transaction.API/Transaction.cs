@@ -3,6 +3,8 @@ using FluentValidation;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.Extensions.Options;
+using Opah.Redis.Client;
 using StackExchange.Redis;
 
 namespace Opah.Transaction.API;
@@ -86,7 +88,7 @@ public static class TransactionEndpoints
     {
         var endpoints = routes.MapGroup("/transactions");
 
-        endpoints.MapPost("/debit", async (DebitTransactionRequest request, TransactionDbContext context, TransactionService service) =>
+        endpoints.MapPost("/debit", async (DebitTransactionRequest request, TransactionDbContext context, IStreamPublisher service) =>
         {
             var validation = new DebitTransactionValidation().Validate(request);
             
@@ -105,12 +107,12 @@ public static class TransactionEndpoints
                 transaction.ReferenceDate,
                 "Debit");
 
-            await service.PublishAsync(response);
+            await service.ProducerAsync<TransactionResponse>("transactions.created", response);
             
             return Results.Created("transactions/debit", response);
         });
 
-        endpoints.MapPost("/credit", async (CreditTransactionRequest request, TransactionDbContext context, TransactionService service) =>
+        endpoints.MapPost("/credit", async (CreditTransactionRequest request, TransactionDbContext context, IStreamPublisher service) =>
         {
             var validation = new CreditTransactionValidation().Validate(request);
             
@@ -128,7 +130,7 @@ public static class TransactionEndpoints
                 transaction.ReferenceDate,
                 "Credit");
             
-            await service.PublishAsync(response);
+            await service.ProducerAsync<TransactionResponse>("transactions.created", response);
             
             return Results.Created("transactions/credit", response);
         });
@@ -139,28 +141,5 @@ public static class TransactionEndpoints
             
             return Results.Ok(transactions);
         });
-    }
-}
-
-
-public class TransactionService
-{
-    public async Task PublishAsync(TransactionResponse response)
-    {
-        var redisConnectionString = "localhost:6379";
-        var connection = ConnectionMultiplexer.Connect(redisConnectionString);
-        var database = connection.GetDatabase();
-            
-        var topic = "queuing.transactions.created";
-
-        var entries = new NameValueEntry[]
-        {
-            new NameValueEntry("id", response.Id.ToString()),
-            new NameValueEntry("direction", response.Direction),
-            new NameValueEntry("value", response.Value.ToString()),
-            new NameValueEntry("referenceDate", response.ReferenceDate.ToString()),
-        };
-            
-        await database.StreamAddAsync(topic, entries);
     }
 }

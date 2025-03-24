@@ -2,6 +2,7 @@ using System.Transactions;
 using Microsoft.EntityFrameworkCore;
 using Opah.Consolidation.Domain;
 using Opah.Consolidation.Infrastructure;
+using Opah.Redis.Client;
 using StackExchange.Redis;
 using Transaction = Opah.Consolidation.Domain.Transaction;
 
@@ -42,11 +43,13 @@ public class TransactionService
 {
     readonly ILogger<TransactionService> _logger;
     readonly ConsolidationDbContext _context;
+    readonly IStreamPublisher _publisher;
 
-    public TransactionService(ILogger<TransactionService> logger, ConsolidationDbContext context)
+    public TransactionService(ILogger<TransactionService> logger, ConsolidationDbContext context, IStreamPublisher publisher)
     {
         _logger = logger;
         _context = context;
+        _publisher = publisher;
     }
 
     public async Task AddTransaction(TransactionResponse response)
@@ -79,31 +82,13 @@ public class TransactionService
 
     public async Task<string> Consumer(string lastId = "0")
     {
-        var redisConnectionString = "localhost:6379";
-        var connection = ConnectionMultiplexer.Connect(redisConnectionString);
         var topic = "queuing.transactions.created";
-        var database = connection.GetDatabase();
 
-        var streams = await database.StreamReadAsync(topic, lastId, 1);
-
-        if (streams.Length > 0)
-        {
-            var entry = streams[0];
-            lastId = entry.Id;
-
-            var transaction = new TransactionResponse(
-                Guid.Parse(entry["id"]),
-                decimal.Parse(entry["value"]),
-                DateOnly.Parse(entry["referenceDate"]),
-                entry["direction"]
-            );
+        var (key, transaction) = await _publisher.ConsumerAsync<TransactionResponse>(topic, lastId);
             
-            _logger.LogInformation($"Received transaction {transaction.Id}: {transaction.Value}");
+        _logger.LogInformation($"Received transaction {transaction.Id}: {transaction.Value}");
 
-            await AddTransaction(transaction);
-
-            return lastId;
-        }
+        await AddTransaction(transaction);
 
         return lastId;
     }

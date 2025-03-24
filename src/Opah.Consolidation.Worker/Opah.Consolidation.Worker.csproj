@@ -15,5 +15,6 @@
     <ItemGroup>
       <ProjectReference Include="..\Opah.Consolidation.Domain\Opah.Consolidation.Domain.csproj" />
       <ProjectReference Include="..\Opah.Consolidation.Infrastructure\Opah.Consolidation.Infrastructure.csproj" />
+      <ProjectReference Include="..\Opah.Redis.Client\Opah.Redis.Client.csproj" />
     </ItemGroup>
 </Project>
