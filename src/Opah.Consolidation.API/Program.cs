@@ -25,3 +25,5 @@ if (app.Environment.IsDevelopment())
 app.MapDailyClosureEndpoints();
 
 app.Run();
+
+public partial class Program { }
