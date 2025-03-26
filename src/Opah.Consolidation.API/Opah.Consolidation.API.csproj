@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Opah.Consolidation.Domain\Opah.Consolidation.Domain.csproj" />
+      <ProjectReference Include="..\Opah.Consolidation.Application\Opah.Consolidation.Application.csproj" />
       <ProjectReference Include="..\Opah.Consolidation.Infrastructure\Opah.Consolidation.Infrastructure.csproj" />
     </ItemGroup>
 

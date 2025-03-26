@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Opah.Consolidation.API;
+using Opah.Consolidation.Application;
 using Opah.Consolidation.Infrastructure;
 using Scalar.AspNetCore;
 
@@ -7,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddDbContext<ConsolidationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("ConsolidationDb")));
-
+builder.Services.AddAutoMapper(typeof(TransactionProfile), typeof(DailyClosureProfile));
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 

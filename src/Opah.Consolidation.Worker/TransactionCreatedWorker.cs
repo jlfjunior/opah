@@ -1,5 +1,6 @@
 using System.Transactions;
 using Microsoft.EntityFrameworkCore;
+using Opah.Consolidation.Application;
 using Opah.Consolidation.Domain;
 using Opah.Consolidation.Infrastructure;
 using Opah.Redis.Client;
@@ -22,7 +23,9 @@ public class TransactionCreatedWorker : BackgroundService
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         using var scope = _provider.CreateScope();
-        var service = scope.ServiceProvider.GetRequiredService<TransactionService>();
+        var service = scope.ServiceProvider.GetRequiredService<IDailyClosureService>();
+        var publisher = scope.ServiceProvider.GetRequiredService<IStreamPublisher>();
+         
         var lastId = "0";
         
         while (!stoppingToken.IsCancellationRequested)
@@ -30,66 +33,16 @@ public class TransactionCreatedWorker : BackgroundService
             if (_logger.IsEnabled(LogLevel.Information))
                 _logger.LogInformation("Worker running at: {time}", DateTimeOffset.Now);
 
-            lastId = await service.Consumer(lastId);
+            var topic = "queuing.transactions.created";
+
+            var (key, transaction) = await publisher.ConsumerAsync<TransactionResponse>(topic, lastId);
+            
+            _logger.LogInformation($"Received transaction {transaction.Id}: {transaction.Value}");
+
+            await service.AddTransaction(transaction);
+            lastId = key;
 
             await Task.Delay(TimeSpan.FromSeconds(10), stoppingToken);
         }
-    }
-}
-
-public record TransactionResponse(Guid Id, decimal Value, DateOnly ReferenceDate, string Direction);
-
-public class TransactionService
-{
-    readonly ILogger<TransactionService> _logger;
-    readonly ConsolidationDbContext _context;
-    readonly IStreamPublisher _publisher;
-
-    public TransactionService(ILogger<TransactionService> logger, ConsolidationDbContext context, IStreamPublisher publisher)
-    {
-        _logger = logger;
-        _context = context;
-        _publisher = publisher;
-    }
-
-    public async Task AddTransaction(TransactionResponse response)
-    {
-        var dailyClosure = await _context.Set<DailyClosure>()
-            .Where(x => x.ReferenceDate == response.ReferenceDate)
-            .SingleOrDefaultAsync();
-
-        if (dailyClosure == null)
-        {
-            dailyClosure = new DailyClosure(response.ReferenceDate);
-
-            _context.Set<DailyClosure>().Add(dailyClosure);
-            await _context.SaveChangesAsync();
-        }
-
-        var transaction = new Transaction()
-        {
-            ReferenceDate = response.ReferenceDate,
-            Value = response.Value,
-            Direction = response.Direction == "Credit" ? Direction.Credit : Direction.Debit
-        };
-        
-        _context.Set<Transaction>().Add(transaction);
-        dailyClosure.AddTransaction(transaction);
-        
-        
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<string> Consumer(string lastId = "0")
-    {
-        var topic = "queuing.transactions.created";
-
-        var (key, transaction) = await _publisher.ConsumerAsync<TransactionResponse>(topic, lastId);
-            
-        _logger.LogInformation($"Received transaction {transaction.Id}: {transaction.Value}");
-
-        await AddTransaction(transaction);
-
-        return lastId;
     }
 }
