@@ -20,8 +20,13 @@ public class DailyClosure : Entity
         if (Transactions == null)
             Transactions = new List<Transaction>();
         
-        Transactions.Add(transaction);
-        Value += transaction.Value;
         transaction.DailyClosureId = Id;
+        
+        Transactions.Add(transaction);
+        
+        if (transaction.Direction == Direction.Credit)
+            Value += transaction.Value;
+        else
+            Value -= transaction.Value;
     }
 }
