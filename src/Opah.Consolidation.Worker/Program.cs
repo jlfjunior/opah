@@ -18,4 +18,11 @@ builder.Services.Configure<RedisClientOptions>(builder.Configuration.GetSection(
 builder.Services.AddScoped<IStreamPublisher, StreamPublisher>();
 
 var host = builder.Build();
+
+using (var scope = host.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ConsolidationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 host.Run();

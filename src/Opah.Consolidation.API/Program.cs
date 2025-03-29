@@ -25,6 +25,12 @@ if (app.Environment.IsDevelopment())
 
 app.MapDailyClosureEndpoints();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ConsolidationDbContext>();
+    dbContext.Database.Migrate();
+}
+
 app.Run();
 
 public partial class Program { }

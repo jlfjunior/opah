@@ -27,7 +27,11 @@ if (app.Environment.IsDevelopment())
 // app.UseHttpsRedirection();
 
 app.MapTransactionEndpoints();
-
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<TransactionDbContext>();
+    dbContext.Database.Migrate();
+}
 app.Run();
 
 public partial class Program { }
