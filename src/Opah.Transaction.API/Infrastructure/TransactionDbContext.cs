@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace Opah.Transaction.API;
+namespace Opah.Transaction.API.Infrastructure;
 
 public class TransactionDbContext : DbContext
 {

@@ -1,6 +1,7 @@
 ﻿using System.Net.Http.Json;
 using FluentAssertions;
 using Opah.Transaction.API;
+using Opah.Transaction.API.Business;
 
 namespace Opah.Transaction.Tests;
 

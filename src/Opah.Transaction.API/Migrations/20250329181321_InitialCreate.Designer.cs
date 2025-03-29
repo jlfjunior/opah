@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using Opah.Transaction.API;
+using Opah.Transaction.API.Infrastructure;
 
 #nullable disable
 
 namespace Opah.Transaction.API.Migrations
 {
     [DbContext(typeof(TransactionDbContext))]
-    [Migration("20250323010003_InitialCreate")]
+    [Migration("20250329181321_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -25,7 +25,7 @@ namespace Opah.Transaction.API.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Opah.Transaction.API.Transaction", b =>
+            modelBuilder.Entity("Opah.Transaction.API.Business.Transaction", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()

@@ -1,4 +1,4 @@
-namespace Opah.Transaction.API;
+namespace Opah.Transaction.API.Business;
 
 public class Entity
 {

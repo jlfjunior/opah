@@ -8,6 +8,6 @@ public class TransactionProfile : Profile
     public TransactionProfile()
     {
         CreateMap<Transaction, TransactionResponse>()
-            .ForMember(dest => dest.Direction, opt => opt.MapFrom(src => src.Direction.ToString()));;
+            .ForMember(dest => dest.Direction, opt => opt.MapFrom(src => src.Direction.ToString()));
     }
 }

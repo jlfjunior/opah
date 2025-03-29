@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Opah.Transaction.API.Business;
 
-namespace Opah.Transaction.API;
+namespace Opah.Transaction.API.Infrastructure;
 
 public class AuditingSaveChangesInterceptor : SaveChangesInterceptor
 {

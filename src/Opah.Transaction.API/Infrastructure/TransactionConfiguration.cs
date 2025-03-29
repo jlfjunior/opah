@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Opah.Transaction.API;
+namespace Opah.Transaction.API.Infrastructure;
 
-public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
+public class TransactionConfiguration : IEntityTypeConfiguration<Business.Transaction>
 {
-    public void Configure(EntityTypeBuilder<Transaction> builder)
+    public void Configure(EntityTypeBuilder<Business.Transaction> builder)
     {
         builder.ToTable(name: "Transactions");
         builder.HasKey(x => x.Id);
