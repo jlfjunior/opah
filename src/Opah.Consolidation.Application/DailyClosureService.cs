@@ -9,7 +9,7 @@ namespace Opah.Consolidation.Application;
 public interface IDailyClosureService
 {
     Task AddTransaction(TransactionResponse response);
-    Task<List<DailyClosureResponse>> ListAsync(DateOnly referenceDate);
+    Task<DailyClosureResponse> GetAsync(DateOnly referenceDate);
 }
 
 public class DailyClosureService : IDailyClosureService
@@ -49,13 +49,13 @@ public class DailyClosureService : IDailyClosureService
         _logger.LogInformation($"Transaction {transaction.ReferenceDate} was successfully added.");
     }
     
-    public async Task<List<DailyClosureResponse>> ListAsync(DateOnly referenceDate)
+    public async Task<DailyClosureResponse> GetAsync(DateOnly referenceDate)
     {
-        var dailyClosures = await _context.Set<DailyClosure>()
+        var dailyClosure = await _context.Set<DailyClosure>()
             .Where(c => c.ReferenceDate == referenceDate)
             .AsNoTracking()
-            .ToListAsync();
+            .SingleOrDefaultAsync();
         
-        return _mapper.Map<List<DailyClosureResponse>>(dailyClosures);
+        return _mapper.Map<DailyClosureResponse>(dailyClosure);
     }
 }

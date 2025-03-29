@@ -9,6 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddDbContext<ConsolidationDbContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("ConsolidationDb")));
 builder.Services.AddAutoMapper(typeof(TransactionProfile), typeof(DailyClosureProfile));
+builder.Services.AddScoped<IDailyClosureService, DailyClosureService>();
+
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
