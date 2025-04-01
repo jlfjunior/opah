@@ -2,6 +2,8 @@
 
 Opah is a cash flow control system developed on a microservices architecture to simulate the concepts of a distributed topology.
 
+This repository is based on the ninth chapter of Software Engineering by Ian Sommerville. It explores software architecture concepts, focusing on maintainability metrics.
+
 ### Components
 - [Transaction System](./docs/Transaction.md)
 - [Consolidation System](./docs/Consolidation.md)
